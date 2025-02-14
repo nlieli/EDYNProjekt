@@ -129,15 +129,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\math\NumericalDifferentiator.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\math\Array.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\VectorField.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\math\NumericalDifferentiator.h" />
+    <ClInclude Include="src\Particle.h" />
     <ClInclude Include="src\math\Array.h" />
     <ClInclude Include="src\math\matplotlibcpp.h" />
     <ClInclude Include="src\math\Vec3.h" />
     <ClInclude Include="src\math\VectorField.h" />
+    <ClInclude Include="src\Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
