@@ -11,31 +11,27 @@
 #include "Utility.h"
 #include "Particle.h"
 
+#define DISABLE_NSTD_OVERLOADS
+#include "misc/nstd.h"
+
 namespace constant
 {
     constexpr double pi = 3.14159265359;
     constexpr double e_si = 1.60217663e-19;
+    constexpr double c_si = 299792458.0;
+    constexpr double c_n = 1.0;
     constexpr double epsilon_0_si = 8.8541878188e-12;
     constexpr double mu_0_si = 1.25663706127e-6;
     constexpr double epsilon_0_n = 1 / mu_0_si;
     constexpr double mu_0_n = 1 / epsilon_0_si;
-    constexpr double c_si = 299792458.0;
-    constexpr double c_n = 1.0;
 }
 
 int main()
 {
-    auto testfunc = [](double x, double a) -> double
-        {
-            double result = a * x * x;
-            return result;
-        };
+    ep::Array<double> arr(3, 3);
 
-    ep::NumericalDifferentiator<double, double, double> nd(testfunc);
-    //constexpr size_t spec = 1;
-    double resk = nd.evaluate(2.0, 2.0);
-    //std::cout << resk;
 
+#if false
     auto r_prime_func = [](double t) -> ep::vec3<double>
         {
             double x = std::cos(t);
@@ -45,16 +41,13 @@ int main()
             return ep::vec3<double>({ x, y, z });
         };
 
-    ep::NumericalDifferentiator<ep::vec3<double>, double> nd1(r_prime_func);
-    ep::vec3<double> resv = nd1.evaluate(2.343);
-    ep::print(resv);
     ep::Particle<double> p(r_prime_func);
-    ep::vec3<double> pos = p.calculateCurrentPosition(0);
+    ep::vec3<double> pos = p.calculateCurrentPosition(2.343);
     ep::print(pos);
-    ep::vec3<double> vel = p.calculateCurrentVelocity(0);
+    ep::vec3<double> vel = p.calculateCurrentVelocity(2.343);
     ep::print(vel);
 
-#if false
+#elseif false
     auto r_prime_func = [](double t) -> ep::vec3<double>
         {
             double x = std::cos(t);

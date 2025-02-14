@@ -1,6 +1,12 @@
 #pragma once
 #include <iostream>
 
+/*
+    example:
+
+    vec3<double> k = { 0, 0, 0 };
+*/
+
 namespace ep
 {
     template <typename T>

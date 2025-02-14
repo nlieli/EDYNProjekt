@@ -51,7 +51,6 @@ namespace ep
             var += m_h; 
             returnType function_at_args_plus_h = m_function(args...);
             //var -= m_h; // redundant because we dont need the variable anymore and we are taking in a copy of args
-            returnType zw = function_at_args_plus_h - function_at_args;
 
             // evaluates numeric differential
             return (function_at_args_plus_h - function_at_args) / m_h;

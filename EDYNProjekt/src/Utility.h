@@ -1,9 +1,35 @@
 #pragma once
-#include "math/Vec3.h"
 #include <concepts>
+#include <vector>
+
+#include "math/Vec3.h"
 
 namespace ep
 {
+
+    template <typename T>
+    std::vector<T> linspace(T start, T end, size_t num_points) {
+        std::vector<T> result;
+        if (num_points == 0) 
+        {
+            return result; 
+        }
+
+        if (num_points == 1) 
+        {
+            result.push_back(start); 
+            return result;
+        }
+
+        result.reserve(num_points);
+        T step = (end - start) / static_cast<T>(num_points - 1);
+        for (size_t i = 0; i < num_points; ++i) 
+        {
+            result.push_back(start + i * step);
+        }
+        return result;
+    }
+
     template <typename T>
     void print(const vec3<T>& vector)
     {
@@ -19,7 +45,6 @@ namespace ep
     {
         std::cout << value << std::endl;
     }
-
 
     template <size_t N, typename T, typename... Ts>
         T& get_argument(T& first, Ts&... rest)

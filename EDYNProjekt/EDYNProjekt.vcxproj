@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\math\NumericalDifferentiator.h" />
+    <ClInclude Include="src\misc\nstd.h" />
     <ClInclude Include="src\Particle.h" />
     <ClInclude Include="src\math\Array.h" />
     <ClInclude Include="src\math\matplotlibcpp.h" />

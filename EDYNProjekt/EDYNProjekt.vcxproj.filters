@@ -53,5 +53,8 @@
     <ClInclude Include="src\math\NumericalDifferentiator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\misc\nstd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

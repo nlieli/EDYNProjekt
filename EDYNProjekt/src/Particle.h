@@ -5,6 +5,25 @@
 #include "math/Vec3.h"
 #include "math/NumericalDifferentiator.h"
 
+/*
+    example: 
+
+    auto r_prime_func = [](double t) -> ep::vec3<double>
+        {
+            double x = std::cos(t);
+            double y = std::sin(t);
+            double z = 0;
+
+            return ep::vec3<double>({ x, y, z });
+        };
+
+    ep::Particle<double> p(r_prime_func);
+    ep::vec3<double> pos = p.calculateCurrentPosition(2.343);
+    ep::print(pos);
+    ep::vec3<double> vel = p.calculateCurrentVelocity(2.343);
+    ep::print(vel);
+*/
+
 namespace ep
 {
     template <typename... inputArgumentTypes>
@@ -18,7 +37,7 @@ namespace ep
 
     public:
         Particle(std::function<vec3<double>(inputArgumentTypes...)> position_func)
-            : m_position_func(position_func), m_velocity({ 0,0,0 }), m_nb(position_func)
+            : m_position_func(position_func), m_velocity({ 0, 0, 0 }), m_nb(position_func)
         {
         }
 
