@@ -46,7 +46,7 @@ namespace ep
             return m_position_func(args...);
         }
 
-        template <size_t differentialArgumentSpecifier = 0>
+        template <const size_t differentialArgumentSpecifier = 0>
         vec3<double> calculateCurrentVelocity(inputArgumentTypes... args)
         {
             m_velocity = m_nb.evaluate<differentialArgumentSpecifier>(args...);

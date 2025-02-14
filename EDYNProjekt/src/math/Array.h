@@ -16,7 +16,7 @@ namespace ep
     class Array
     {
     private:
-        std::unique_ptr<container[]> m_LocalBuffer;
+        std::shared_ptr<container[]> m_LocalBuffer;
         size_t m_dim1_size, m_dim2_size, m_dim3_size;
 
         // overloads allow the array to hold different types of data (either numbers or vectors)
@@ -41,7 +41,7 @@ namespace ep
         : m_dim1_size(dim1_size), m_dim2_size(dim2_size), m_dim3_size(dim3_size)
         {
             size_t data_size = dim1_size * dim2_size * dim3_size;
-            m_LocalBuffer = std::make_unique<container[]>(data_size);
+            m_LocalBuffer = std::make_shared<container[]>(data_size);
             Init(m_LocalBuffer.get(), data_size);
         }
 
@@ -72,9 +72,8 @@ namespace ep
             case 1: return m_dim1_size;
             case 2: return m_dim2_size;
             case 3: return m_dim3_size;
-            default: __debugbreak(); // Array can only have linear + 3 dimensions
+            default: __debugbreak(); return 0; // Array can only have linear + 3 dimensions
             }
-
         }
 
     };

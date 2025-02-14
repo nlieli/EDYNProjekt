@@ -5,33 +5,44 @@
 #include "math/Vec3.h"
 #include "math/Array.h"
 #include "math/NumericalDifferentiator.h"
-//#include "math/VectorField.h"
+#include "math/VectorField.h"
 //#include "math/matplotlibcpp.h"
 
 #include "Utility.h"
 #include "Particle.h"
 
+#include "simulations/simulation.h"
+
 #define DISABLE_NSTD_OVERLOADS
 #include "misc/nstd.h"
+#include "misc/Constants.h"
 
-namespace constant
-{
-    constexpr double pi = 3.14159265359;
-    constexpr double e_si = 1.60217663e-19;
-    constexpr double c_si = 299792458.0;
-    constexpr double c_n = 1.0;
-    constexpr double epsilon_0_si = 8.8541878188e-12;
-    constexpr double mu_0_si = 1.25663706127e-6;
-    constexpr double epsilon_0_n = 1 / mu_0_si;
-    constexpr double mu_0_n = 1 / epsilon_0_si;
-}
 
 int main()
 {
-    ep::Array<double> arr(3, 3);
+    //double t_ret = 0;
+    //auto f = [](double t_ret, double t, const ep::vec3<double>& r, const auto& r_prime_func) -> double
+    //    {
+    //        return t_ret - t + ep::norm(r - r_prime_func(t_ret)) / constant::c_n;
+    //    };
+
+    simulation sim;
+    sim.Run();
 
 
 #if false
+    ep::Array<double> arr(3, 3);
+    ep::Array<ep::vec3<double>> pos(3, 3);
+    
+    ep::ScalarField sf(10, 10);
+    sf.createTestPositions(-5, 5, -5, 5);
+
+    for (size_t i = 0; i < sf.positions.size(); ++i)
+        ep::print(sf.positions[i]);
+
+
+
+#elseif false
     auto r_prime_func = [](double t) -> ep::vec3<double>
         {
             double x = std::cos(t);
@@ -59,7 +70,7 @@ int main()
 
     double t = 0.0;
     double dt = 1e-2;
-    double q = -1 * constant::e_si;
+    double q = -1 * constant::e_n;
     double phi = 0;
     double omega = 1;
     ep::vec3<double> r = { 0.0, 0.5, 1.0 };
@@ -79,7 +90,7 @@ int main()
         v = { -std::sin(phi), std::cos(phi), 0.0 };
         double pr = q / (4 * constant::pi * constant::epsilon_0_si) * 1 / ep::norm(R) - R * v;
 
-        scalarField(0, 0) = q / (4 * constant::pi * constant::epsilon_0_si * (ep::norm(R) - (R * v)));
+        scalarField(0, 0) = q / (4 * constant::pi * constant::epsilon_0_n * (ep::norm(R) - (R * v)));
         std::cout << scalarField(0, 0) << std::endl;
     }
 #endif

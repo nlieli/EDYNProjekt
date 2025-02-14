@@ -129,6 +129,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\math\RootSolver.cpp" />
+    <ClCompile Include="src\simulations\simulation.cpp" />
     <ClCompile Include="src\math\NumericalDifferentiator.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\math\Array.cpp" />
@@ -136,6 +138,9 @@
     <ClCompile Include="src\math\VectorField.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\math\RootSolver.h" />
+    <ClInclude Include="src\misc\Constants.h" />
+    <ClInclude Include="src\simulations\simulation.h" />
     <ClInclude Include="src\math\NumericalDifferentiator.h" />
     <ClInclude Include="src\misc\nstd.h" />
     <ClInclude Include="src\Particle.h" />
