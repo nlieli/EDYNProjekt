@@ -30,12 +30,15 @@
     <ClCompile Include="src\math\NumericalDifferentiator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\math\RootSolver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\simulations\simulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\math\Vec3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\math\matplotlibcpp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\math\VectorField.h">
@@ -56,5 +59,17 @@
     <ClInclude Include="src\misc\nstd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\math\RootSolver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\misc\Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\simulations\simulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\test.py" />
   </ItemGroup>
 </Project>
