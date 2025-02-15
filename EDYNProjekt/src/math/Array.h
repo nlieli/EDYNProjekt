@@ -55,7 +55,25 @@ namespace ep
             return m_LocalBuffer[(dim1_index * m_dim1_size * m_dim3_size) + (dim2_index * m_dim3_size) + dim3_index];
         }
 
+        const container& operator()(size_t dim1_index, size_t dim2_index, size_t dim3_index = 0) const
+        {
+            // out of bounds checks
+            if (m_dim1_size < dim1_index + 1) { __debugbreak(); }
+            if (m_dim2_size < dim2_index + 1) { __debugbreak(); }
+            if (m_dim3_size < dim3_index + 1) { __debugbreak(); }
+
+            return m_LocalBuffer[(dim1_index * m_dim1_size * m_dim3_size) + (dim2_index * m_dim3_size) + dim3_index];
+        }
+
         container& operator[](size_t linear_index)
+        {
+            // out of bounds check
+            if (m_dim1_size * m_dim2_size * m_dim3_size < linear_index + 1) { __debugbreak(); }
+
+            return m_LocalBuffer[linear_index];
+        }
+
+        const container& operator[](size_t linear_index) const
         {
             // out of bounds check
             if (m_dim1_size * m_dim2_size * m_dim3_size < linear_index + 1) { __debugbreak(); }

@@ -162,6 +162,12 @@ namespace ep
     }
 
     template <typename T, typename U>
+    vec3<T> operator*(const U& scalar, const vec3<T>& v1)
+    {
+        return prod(v1, scalar);
+    }
+
+    template <typename T, typename U>
     vec3<T> operator/(const vec3<T>& v1, const U& scalar)
     {
         return div(v1, scalar);
