@@ -16,7 +16,8 @@ namespace ep
         NumericalDifferentiator<returnType, inputArgumentTypes...> m_nd;
 
     public:
-        RootSolver(std::function<returnType(inputArgumentTypes...)> function)
+        template <typename Callable>
+        RootSolver(Callable&& function)
             : m_function(function), m_nd(function) 
         {
 
@@ -30,7 +31,7 @@ namespace ep
         template <const size_t dependentArgumentSpecifier = 0>
         returnType NRsolve(inputArgumentTypes... args)
         {
-            returnType result = get_argument<dependentArgumentSpecifier>(args...);
+            returnType& result = get_argument<dependentArgumentSpecifier>(args...);
             returnType m_function_prime;
             for (unsigned int i = 0; i < m_iterations; ++i)
             {

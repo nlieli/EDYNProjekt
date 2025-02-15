@@ -1,6 +1,8 @@
 #pragma once
 #include <concepts>
 #include <vector>
+#include <functional>
+#include <tuple>
 
 #include "math/Vec3.h"
 

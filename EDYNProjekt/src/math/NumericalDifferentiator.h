@@ -33,7 +33,8 @@ namespace ep
 
 
     public:
-        NumericalDifferentiator(std::function<returnType(inputArgumentTypes...)> function) : m_function(function) {}
+        template <typename Callable>
+        NumericalDifferentiator(Callable&& function) : m_function(function) {}
 
         void SetParameterh(double h)
         {
@@ -42,7 +43,7 @@ namespace ep
 
         // make sure differentialArgumentSpecifier is constexpr and the number of arguments matches the Specifier
         template <size_t differentialArgumentSpecifier = 0>
-        returnType evaluate(inputArgumentTypes... args) requires Numbers<inputArgumentTypes...>
+        returnType evaluate(inputArgumentTypes... args) 
         {
             returnType function_at_args = m_function(args...);
             
@@ -56,4 +57,7 @@ namespace ep
             return (function_at_args_plus_h - function_at_args) / m_h;
         }
     };
+
+    template <typename returnType, typename... inputArgumentTypes>
+    NumericalDifferentiator(std::function<returnType(inputArgumentTypes...)>) -> NumericalDifferentiator<returnType, inputArgumentTypes...>;
 }
