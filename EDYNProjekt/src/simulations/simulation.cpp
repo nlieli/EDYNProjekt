@@ -18,9 +18,9 @@ namespace ep
 
         ep::Particle p(r_prime_func);
 
-        size_t sfGridPoints = 10;
-        double sfLlim = -5;
-        double sfUlim = 5;
+        size_t sfGridPoints = 30;
+        double sfLlim = -50000;
+        double sfUlim = 50000;
 
         size_t vfGridPoints = 10;
         double vfLlim = -5;
@@ -56,10 +56,10 @@ namespace ep
         double t_ret = rs.NRsolve(t_ret_init_guess, t, r, r_prime_func);
 
 
-        #pragma omp parallel for 
+        //#pragma omp parallel for 
         for (int j = 0; j < iterations; ++j)
         {
-            #pragma omp parallel for
+            //#pragma omp parallel for
             for (int i = 0; i < phi.positions.size(); ++i)
             {
                 r = phi.positions[i];
@@ -68,7 +68,7 @@ namespace ep
                 v = p.calculateCurrentVelocity(t_ret);
                 R = r - r_prime;
 
-                phi.values[i] = p.charge / (4 * constant::pi * constant::epsilon_0_n) * 1 / (ep::norm(R) - R * v);
+                phi.values[i] = p.charge / (4 * constant::pi * constant::mu_0_n) * 1 / (ep::norm(R) - R * v);
             }
 
             // maybe combine everything?!
@@ -101,8 +101,10 @@ namespace ep
     void simulation::Save()
     {
         Timer timer;
-        SaveScalarField("phi_field.txt", m_phi);
-        SaveVectorField("A_field.txt", m_A);
+        SaveScalarField("phi_field.csv", m_phi);
+        SaveVectorField("A_field.csv", m_A);
+        //SaveVectorField("E_field.txt", m_B);
+        //SaveVectorField("B_field.txt", m_B);
     }
 
     void simulation::SaveVectorField(const std::string& fileName, const std::vector<VectorField>& field)
@@ -140,7 +142,7 @@ namespace ep
 
         std::ostringstream dataStream;
 
-        dataStream << "time,x,y,z,xvalue,yvalue,zvalue\n";
+        dataStream << "time,x,y,z,value\n";
         for (size_t j = 0; j < field.size(); ++j)
         {
             for (size_t i = 0; i < field[j].positions.size(); ++i)

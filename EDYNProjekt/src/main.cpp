@@ -22,12 +22,21 @@
 
 int main(int argc, char** argv)
 {
-    ep::simulation sim;
-    sim.Run();
+    //ep::simulation sim;
+    //sim.Run();
 
     // root solver still needs to be tested
 
     // plotting
-    //std::system("python src/test.py");
+    //std::system("python src/data/plot_A.py");
+    //std::system("python src/data/plot_phi.py");
+    std::function<double(double)> f = [](double x) -> double
+        {
+            return x * x - 2;
+        };
+
+    ep::RootSolver rs(f);
+    auto sol = rs.NRsolve(-0.1);
+    std::cout << sol;
 }
 

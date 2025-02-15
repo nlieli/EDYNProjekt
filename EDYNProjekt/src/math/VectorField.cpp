@@ -13,9 +13,9 @@ namespace ep
         size_t y_number_of_points = positions.size(2);
         size_t z_number_of_points = positions.size(3);
 
-        std::vector<double> x_points = ep::linspace(x_LBound, x_UBound, x_number_of_points);
-        std::vector<double> y_points = ep::linspace(y_LBound, y_UBound, y_number_of_points);
-        std::vector<double> z_points = ep::linspace(z_LBound, z_UBound, z_number_of_points);
+        std::vector<double> x_points = ep::linspace<double>(x_LBound, x_UBound, x_number_of_points);
+        std::vector<double> y_points = ep::linspace<double>(y_LBound, y_UBound, y_number_of_points);
+        std::vector<double> z_points = ep::linspace<double>(z_LBound, z_UBound, z_number_of_points);
 
         for (size_t k = 0; k < z_number_of_points; ++k)
         {
@@ -40,9 +40,9 @@ namespace ep
         size_t y_number_of_points = positions.size(2);
         size_t z_number_of_points = positions.size(3);
 
-        std::vector<double> x_points = ep::linspace(x_LBound, x_UBound, x_number_of_points);
-        std::vector<double> y_points = ep::linspace(y_LBound, y_UBound, y_number_of_points);
-        std::vector<double> z_points = ep::linspace(z_LBound, z_UBound, z_number_of_points);
+        std::vector<double> x_points = ep::linspace<double>(x_LBound, x_UBound, x_number_of_points);
+        std::vector<double> y_points = ep::linspace<double>(y_LBound, y_UBound, y_number_of_points);
+        std::vector<double> z_points = ep::linspace<double>(z_LBound, z_UBound, z_number_of_points);
 
         for (size_t k = 0; k < z_number_of_points; ++k)
         {

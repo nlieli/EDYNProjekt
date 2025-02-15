@@ -159,7 +159,15 @@
     <ClInclude Include="src\Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\test.py" />
+    <None Include="src\data\A_field.csv" />
+    <None Include="src\data\phi_field.csv" />
+    <None Include="src\data\plot_A.py" />
+    <None Include="src\data\plot_phi.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\data\A_field.txt" />
+    <Text Include="src\data\E_field.txt" />
+    <Text Include="src\data\phi_field.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

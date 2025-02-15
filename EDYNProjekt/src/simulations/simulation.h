@@ -18,7 +18,7 @@ namespace ep
         double sim_max_time = 1.0;
         double t = 0.0;
         // dt indirectly prop to file size (1e-3 ~ 100 000 lines -> 1e-4 ~ 1 000 000 lines) per VectorField
-        double dt = 1e-3;
+        double dt = 0.5;
 
         // wtf
         std::function<double(double, double, ep::vec3<double>, std::function<ep::vec3<double>(double)>)> m_ftret =
