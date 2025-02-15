@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+from matplotlib.animation import ani 
 
 #with open('file.txt', 'r') as file:
 #    for line in file:

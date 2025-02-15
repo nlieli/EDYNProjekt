@@ -3,11 +3,24 @@
 #include <vector>
 #include <functional>
 #include <tuple>
+#include <chrono>
 
 #include "math/Vec3.h"
 
 namespace ep
 {
+    class Timer
+    {
+    private:
+        std::chrono::high_resolution_clock ch;
+        std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
+        std::chrono::time_point<std::chrono::high_resolution_clock> m_end;
+        std::chrono::duration<float> m_duration;
+
+    public:
+        Timer();
+        ~Timer();
+    };
 
     template <typename T>
     std::vector<T> linspace(T start, T end, size_t num_points) {
