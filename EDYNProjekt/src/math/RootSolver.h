@@ -11,7 +11,7 @@ namespace ep
     {
     private:
         unsigned int m_iterations = 10;
-        double m_bracket_di = 1e-3;
+        double m_bracket_di = 1e-2;
         std::function<returnType(inputArgumentTypes...)> m_function;
 
         NumericalDifferentiator<returnType, inputArgumentTypes...> m_nd;
@@ -64,6 +64,11 @@ namespace ep
         void SetIterations(unsigned int iterations)
         {
             m_iterations = iterations;
+        }
+
+        void SetBracketInterval(double interval)
+        {
+            m_bracket_di = interval;
         }
 
         template <const size_t dependentArgumentSpecifier = 0>

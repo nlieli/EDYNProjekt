@@ -45,6 +45,30 @@ namespace ep
             Init(m_LocalBuffer.get(), data_size);
         }
 
+        Array(const Array& other)
+            : m_dim1_size(other.m_dim1_size), m_dim2_size(other.m_dim2_size), m_dim3_size(other.m_dim3_size)
+        {
+            size_t data_size = m_dim1_size * m_dim2_size * m_dim3_size;
+            m_LocalBuffer = std::make_shared<container[]>(data_size);
+            for (size_t i = 0; i < data_size; ++i)
+                m_LocalBuffer[i] = other.m_LocalBuffer[i];
+        }
+
+        Array& operator=(const Array& other)
+        {
+            if (this != &other)
+            {
+                m_dim1_size = other.m_dim1_size;
+                m_dim2_size = other.m_dim2_size;
+                m_dim3_size = other.m_dim3_size;
+                size_t data_size = m_dim1_size * m_dim2_size * m_dim3_size;
+                m_LocalBuffer = std::make_shared<container[]>(data_size);
+                for (size_t i = 0; i < data_size; ++i)
+                    m_LocalBuffer[i] = other.m_LocalBuffer[i];
+            }
+            return *this;
+        }
+
         container& operator()(size_t dim1_index, size_t dim2_index, size_t dim3_index = 0)
         {
             // out of bounds checks

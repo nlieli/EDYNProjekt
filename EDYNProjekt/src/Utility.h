@@ -23,6 +23,16 @@ namespace ep
     };
 
     template <typename T>
+    std::vector<T> espace(T hotspot, T start, T end, size_t num_points)
+    {
+        std::vector<T> result(num_points);
+        T step;
+
+
+        return {};
+    }
+
+    template <typename T>
     std::vector<T> linspace(T start, T end, size_t num_points) {
         std::vector<T> result;
         if (num_points == 0) 

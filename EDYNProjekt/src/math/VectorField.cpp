@@ -29,6 +29,16 @@ namespace ep
         }
     }
 
+    void VectorField::createTestPosE(vec3<double> hotspot, double x_LBound, double x_UBound, double y_LBound, double y_UBound, double z_LBound /*= 0*/, double z_UBound /*= 0*/)
+    {
+        size_t x_number_of_points = positions.size(1);
+        size_t y_number_of_points = positions.size(2);
+        size_t z_number_of_points = positions.size(3);
+
+
+
+    }
+
     ScalarField::ScalarField(size_t x_size, size_t y_size, size_t z_size /*= 1*/)
         : values(x_size, y_size, z_size), positions(x_size, y_size, z_size)
     {
