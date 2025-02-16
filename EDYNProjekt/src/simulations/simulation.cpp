@@ -7,10 +7,14 @@ namespace ep
 {
     void simulation::Run()
     {
+        /*
+        !!!CAREFUL!!! NORM OF DERIVATIVE OF FUNCTION MUST BE < 1 OTHERWISE PARTICLE MOVES AT SPEED OF LIGHT
+        OR ABOVE THIS PRODUCES COMPLETELY INCORRECT RESULTS
+        */
         std::function<ep::vec3<double>(double)> r_prime_func = [](double t) -> ep::vec3<double>
             {
-                double x = std::cos(t);
-                double y = std::sin(t);
+                double x = 0.5 * std::cos(t);
+                double y = 0.5 * std::sin(t);
                 double z = 0;
 
                 return ep::vec3<double>({ x, y, z });
@@ -18,9 +22,9 @@ namespace ep
 
         ep::Particle p(r_prime_func);
 
-        size_t sfGridPoints = 30;
-        double sfLlim = -50000;
-        double sfUlim = 50000;
+        size_t sfGridPoints = 25;
+        double sfLlim = -5;
+        double sfUlim = 5;
 
         size_t vfGridPoints = 10;
         double vfLlim = -5;
@@ -53,17 +57,27 @@ namespace ep
 
         // guess needs to be updated as well
         double t_ret_init_guess = t - ep::norm(R) / constant::c_n;
-        double t_ret = rs.NRsolve(t_ret_init_guess, t, r, r_prime_func);
+        //double t_ret = rs.NRsolve(t_ret_init_guess, t, r, r_prime_func);
+        double t_ret = 0;
+        std::vector<double> t_ret_solutions;
 
 
-        //#pragma omp parallel for 
+        #pragma omp parallel for 
         for (int j = 0; j < iterations; ++j)
         {
-            //#pragma omp parallel for
+            #pragma omp parallel for
             for (int i = 0; i < phi.positions.size(); ++i)
             {
                 r = phi.positions[i];
-                t_ret = rs.NRsolve(t_ret_init_guess, t, r, r_prime_func);
+                t_ret_solutions = rs.Nsolve(t_ret_init_guess, t, r, r_prime_func, -10, t);
+
+                // only results for t_ret < t are meaningful 
+                for (size_t i = 0; i < t_ret_solutions.size(); ++i)
+                {
+                    if (t_ret_solutions[i] < t)
+                        t_ret = t_ret_solutions[i];
+                }
+
                 r_prime = p.calculateCurrentPosition(t_ret);
                 v = p.calculateCurrentVelocity(t_ret);
                 R = r - r_prime;
@@ -76,7 +90,15 @@ namespace ep
             for (int i = 0; i < A.positions.size(); ++i)
             {
                 r = A.positions[i];
-                t_ret = rs.NRsolve(t_ret_init_guess, t, r, r_prime_func);
+                t_ret_solutions = rs.Nsolve(t_ret_init_guess, t, r, r_prime_func, -10, t);
+
+                // only results for t_ret < t are meaningful 
+                for (size_t i = 0; i < t_ret_solutions.size(); ++i)
+                {
+                    if (t_ret_solutions[i] < t)
+                        t_ret = t_ret_solutions[i];
+                }
+
                 r_prime = p.calculateCurrentPosition(t_ret);
                 v = p.calculateCurrentVelocity(t_ret);
                 R = r - r_prime;
