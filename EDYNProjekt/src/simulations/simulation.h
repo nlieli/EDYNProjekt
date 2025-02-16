@@ -21,10 +21,10 @@ namespace ep
     private:
         std::function<returnType(inputArgumentTypes...)> m_function;
 
-        double sim_max_time = 2 * constant::pi * 2;
+        double sim_max_time = 2 * constant::pi * 2 * 3;
         double t = 0.0;
         // dt indirectly prop to file size (1e-3 ~ 100 000 lines -> 1e-4 ~ 1 000 000 lines) per VectorField
-        double dt = 0.1;
+        double dt = 2e-1;
 
         // wtf
         std::function<double(double, double, ep::vec3<double>, std::function<ep::vec3<double>(double)>)> m_ftret =
@@ -130,7 +130,7 @@ namespace ep
             ep::Particle p(m_function);
 
             // rounding is intended here
-            int iterations = static_cast<int>(sim_max_time - t) / dt;
+            int iterations = (sim_max_time - t) / dt;
 
             ep::ScalarField phi(sfGridPoints, sfGridPoints);
             phi.createTestPositions(sfLlim, sfUlim, sfLlim, sfUlim);
@@ -153,7 +153,11 @@ namespace ep
             ep::vec3<double> r = phi.positions[0];
             ep::vec3<double> r_prime = p.calculateCurrentPosition(t);
             ep::vec3<double> v = p.calculateCurrentVelocity(t);
+            ep::vec3<double> a = p.calculateCurrentAcceleration(t);
             ep::vec3<double> R = r - r_prime;
+            ep::vec3<double> e_r = R / ep::norm(R);
+
+            double kappa = 1 - e_r * v;
 
             // t_ret_init_guess is completely irrelevant - is overwritten in Nsolve function anyway
             double t_ret_init_guess = 0; 
@@ -199,14 +203,29 @@ namespace ep
 
                     r_prime = p.calculateCurrentPosition(t_ret);
                     v = p.calculateCurrentVelocity(t_ret);
+                    a = p.calculateCurrentAcceleration(t_ret);
+                    
                     R = r - r_prime;
+                    e_r = R / ep::norm(R);
+                    kappa = 1 - e_r * v;
+
+                    vec3<double> temp = cross(e_r - v, a);
 
                     A.values[i] = constant::mu_0_n * p.charge * v / (4 * constant::pi) * 1 / (ep::norm(R) - R * v);
+
+                    E.values[i] = p.charge / (4 * constant::pi * constant::epsilon_0_n) *
+                        (cross(R, temp)) + 
+                        p.charge / (4 * constant::pi * constant::epsilon_0_n) *
+                        (1 / (R * R * kappa * kappa * kappa) * (e_r - v) * (1 - v * v));
+
+                    B.values[i] = cross(e_r, E.values[i]);
                 }
 
                 timeStamps.push_back(t);
                 m_phi.push_back(phi);
                 m_A.push_back(A);
+                m_E.push_back(E);
+                m_B.push_back(B);
                 m_trajectory.push_back(p.calculateCurrentPosition(t));
 
                 t += dt;
@@ -215,13 +234,13 @@ namespace ep
             Save();
         }
 
-        void Save()
+        inline void Save()
         {
             SaveTrajectory("particle_traj.csv", m_trajectory);
             SaveScalarField("phi_field.csv", m_phi);
             SaveVectorField("A_field.csv", m_A);
-            //SaveVectorField("E_field.txt", m_B);
-            //SaveVectorField("B_field.txt", m_B);
+            SaveVectorField("E_field.csv", m_E);
+            SaveVectorField("B_field.csv", m_B);
         }
 
     };

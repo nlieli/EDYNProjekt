@@ -124,6 +124,17 @@ namespace ep
         return result;
     }
 
+    template <typename T>
+    vec3<T> cross(const vec3<T> v1, const vec3<T> v2)
+    {
+        vec3<T> result;
+        result.x = v1.y * v2.z - v2.y * v1.z;
+        result.y = v1.z * v2.x - v2.z * v1.x;
+        result.z = v1.x * v2.y - v2.x * v1.y;
+
+        return result;
+    }
+
     // overloads
     template <typename T>
     vec3<T> operator+(const vec3<T>& v1, const vec3<T>& v2)
