@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import pandas as pd
 import os
+import time
+import datetime 
 
 wd = os.path.dirname(os.path.abspath(__file__))
 file_path_phi = os.path.join(wd, 'phi_field.csv')
@@ -71,9 +73,12 @@ def update(frame):
     potential = ax.scatter(x, y, z, c=z, cmap='plasma_r', alpha=0.2)
 
     particle.set_data(df_traj.x, df_traj.y)
-    particle.set_3d_properties(df_traj.z)
+    particle.set_3d_properties(df_traj.z * 1e-12)
 
 ani = animation.FuncAnimation(fig=fig, func=update, frames=len(df_traj_r), interval=1e-4)
-# ani.save(filename="phi_example.gif", writer="imagemagick", dpi=100)
+ts = time.time()
+fN = "../../graphs/AEB/AEB_example_" + datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d-%H-%M-%S') + ".gif"
+
+# ani.save(filename=fN, writer="imagemagick", dpi=50)
 plt.show()
 

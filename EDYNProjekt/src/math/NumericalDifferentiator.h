@@ -28,7 +28,7 @@ namespace ep
     class NumericalDifferentiator
     {
     private:
-        double m_h = 1e-8;
+        double m_h = 1e-6;
         std::function<returnType(inputArgumentTypes...)> m_function;
 
 
@@ -67,6 +67,9 @@ namespace ep
             returnType function_at_args_plus_h = m_function(args...);
             var += m_h;
             returnType function_at_args_plus_two_h = m_function(args...);
+            //const double epsilon = 1e-18;
+            //if ((function_at_args_plus_two_h - 2 * function_at_args_plus_h + function_at_args)[0] < epsilon && (function_at_args_plus_two_h - 2 * function_at_args_plus_h + function_at_args)[1] < epsilon)
+                //return function_at_args * 0;
 
             return (function_at_args_plus_two_h - 2 * function_at_args_plus_h + function_at_args) / (m_h * m_h);
         }

@@ -114,15 +114,31 @@ namespace ep
 
     public:
         size_t sfGridPoints = 10;
+        size_t sfGridPointsZ = 1;
         double sfLlim = -5;
         double sfUlim = 5;
+        double sfLlimZ = 0;
+        double sfUlimZ = 0;
 
         size_t vfGridPoints = 10;
+        size_t vfGridPointsZ = 1;
         double vfLlim = -5;
         double vfUlim = 5;
+        double vfLlimZ = 0;
+        double vfUlimZ = 0;
 
         template <typename Callable>
         simulation(Callable& function) : m_function(function) {}
+
+        void SetSimTime(double time)
+        {
+            sim_max_time = time;
+        }
+
+        void SetDeltaTime(double deltaTime)
+        {
+            dt = deltaTime;
+        }
 
         virtual void Run()
         {
@@ -132,14 +148,15 @@ namespace ep
             // rounding is intended here
             int iterations = (sim_max_time - t) / dt;
 
-            ep::ScalarField phi(sfGridPoints, sfGridPoints);
-            phi.createTestPositions(sfLlim, sfUlim, sfLlim, sfUlim);
-            ep::VectorField A(vfGridPoints, vfGridPoints);
-            A.createTestPositions(vfLlim, vfUlim, vfLlim, vfUlim);
-            ep::VectorField E(vfGridPoints, vfGridPoints);
-            E.createTestPositions(vfLlim, vfUlim, vfLlim, vfUlim);
-            ep::VectorField B(vfGridPoints, vfGridPoints);
-            B.createTestPositions(vfLlim, vfUlim, vfLlim, vfUlim);
+            ep::ScalarField phi(sfGridPoints, sfGridPoints, sfGridPointsZ);
+            phi.createTestPositions(sfLlim, sfUlim, sfLlim, sfUlim, sfLlimZ, sfUlimZ);
+
+            ep::VectorField A(vfGridPoints, vfGridPoints, vfGridPointsZ);
+            A.createTestPositions(vfLlim, vfUlim, vfLlim, vfUlim, vfLlimZ, vfUlimZ);
+            ep::VectorField E(vfGridPoints, vfGridPoints, vfGridPointsZ);
+            E.createTestPositions(vfLlim, vfUlim, vfLlim, vfUlim, vfLlimZ, vfUlimZ);
+            ep::VectorField B(vfGridPoints, vfGridPoints, vfGridPointsZ);
+            B.createTestPositions(vfLlim, vfUlim, vfLlim, vfUlim, vfLlimZ, vfUlimZ);
 
             // reserve space for each frame
             timeStamps.reserve(iterations);
@@ -213,10 +230,18 @@ namespace ep
 
                     A.values[i] = constant::mu_0_n * p.charge * v / (4 * constant::pi) * 1 / (ep::norm(R) - R * v);
 
+                    // E total
                     E.values[i] = p.charge / (4 * constant::pi * constant::epsilon_0_n) *
-                        (cross(R, temp)) + 
+                        (cross(R, temp)) +
                         p.charge / (4 * constant::pi * constant::epsilon_0_n) *
                         (1 / (R * R * kappa * kappa * kappa) * (e_r - v) * (1 - v * v));
+
+                    // E_s
+                    //E.values[i] = cross(R, temp); //p.charge / (4 * constant::pi * constant::epsilon_0_n) *
+
+                    // E_r
+                    //E.values[i] = p.charge / (4 * constant::pi * constant::epsilon_0_n) *
+                    //    (1 / (R * R * kappa * kappa * kappa) * (e_r - v) * (1 - v * v));
 
                     B.values[i] = cross(e_r, E.values[i]);
                 }
