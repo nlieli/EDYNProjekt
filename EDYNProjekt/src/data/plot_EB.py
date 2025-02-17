@@ -61,6 +61,11 @@ quiverB = ax.quiver(df_B.x, df_B.y, df_B.z, df_B.xvalue, df_B.yvalue, df_B.zvalu
 ax.set_zlim(-5, 5)
 # ax.set_zlim(0.1 - 3e-11, 0.1 + 3e-11)
 
+ax.set_xlabel("x / ls")
+ax.set_ylabel("y / ls")
+ax.set_zlabel("z / ls")
+ax.set_title("$E$- and $B$- Vector Field - Magnitudes not to scale")
+
 
 def update(frame):
     # global quiverA

@@ -10,8 +10,8 @@ namespace ep
     class RootSolver
     {
     private:
-        unsigned int m_iterations = 10;
-        double m_bracket_di = 1e-2;
+        unsigned int m_iterations = 8;
+        double m_bracket_di = 3e-1;
         std::function<returnType(inputArgumentTypes...)> m_function;
 
         NumericalDifferentiator<returnType, inputArgumentTypes...> m_nd;
@@ -33,7 +33,7 @@ namespace ep
         template <const size_t dependentArgumentSpecifier = 0>
         std::vector<returnType> Brackets(inputArgumentTypes... args, double lower_bound, double upper_bound)
         {
-            std::vector<returnType> guesses;
+            std::vector<returnType> guesses(2);
             returnType& dependentVariable = get_argument<dependentArgumentSpecifier>(args...);
 
             dependentVariable = lower_bound;

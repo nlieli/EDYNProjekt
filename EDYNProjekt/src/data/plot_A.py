@@ -59,6 +59,10 @@ quiverA = ax.quiver(x, y, z, u, v, w, length=0.5, normalize=True)
 # quiver.set_animated(True)
 (particle,) = ax.plot3D(tx, ty, tz, 'o', color='purple')
 ax.set_zlim(-5, 5)
+ax.set_xlabel("x / ls")
+ax.set_ylabel("y / ls")
+ax.set_zlabel("z / ls")
+ax.set_title("Vector Potential $A$ - Magnitudes not to scale")
 
 
 def update(frame):
