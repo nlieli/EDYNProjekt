@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import pandas as pd
 import os
+import time
+import datetime 
 
 wd = os.path.dirname(os.path.abspath(__file__))
 file_path_phi = os.path.join(wd, 'phi_field.csv')
@@ -44,15 +46,18 @@ tz = df_traj.z
 X, Y = np.meshgrid(x, y)
 # Z = z.reshape(X.shape)
 
-fig = plt.figure()
+fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
+
+ax.set_xlabel("x / ls")
+ax.set_ylabel("y / ls")
+ax.set_zlabel("$\phi$ / 1")
+ax.set_title("Scalar Liénard-Wiechert Potential")
 
 (particle, ) = ax.plot3D(tx, ty, tz, 'o', color='red', zorder=10)
 potential = ax.scatter(x, y, z, 'o', c=z, cmap='plasma_r')
 # surf = ax.plot_surface(X, Y, Z, cmap='viridis')
 ax.set_zlim(-3.5e-12, 1e-12)
-
-plt.ion()
 
 def update(frame):
     # global surf
@@ -70,12 +75,15 @@ def update(frame):
     # surf = ax.plot_surface(X, Y, Z, cmap='viridis')
 
     potential.remove()
-    potential = ax.scatter(x, y, z, c=z, cmap='plasma_r')
+    potential = ax.scatter(x, y, z, c=z, cmap="plasma_r", alpha=0.4)
 
     particle.set_data(df_traj.x, df_traj.y)
-    particle.set_3d_properties(df_traj.z)
+    particle.set_3d_properties(df_traj.z * 1e-12)
 
 ani = animation.FuncAnimation(fig=fig, func=update, frames=len(df_traj_r), interval=1e-4)
-# ani.save(filename="phi_example.gif", writer="pillow")
+ts = time.time()
+fN = "../../graphs/phi/phi_example_" + datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d-%H-%M-%S') + ".gif"
+
+# ani.save(filename=fN, writer="imagemagick", dpi=200)
 plt.show()
 

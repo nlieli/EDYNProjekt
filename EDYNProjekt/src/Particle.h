@@ -32,6 +32,7 @@ namespace ep
     private:
         std::function<vec3<double>(inputArgumentTypes...)> m_position_func;
         vec3<double> m_velocity;
+        vec3<double> m_acceleration;
 
         NumericalDifferentiator<vec3<double>, inputArgumentTypes...> m_nb;
 
@@ -55,6 +56,14 @@ namespace ep
             m_velocity = m_nb.evaluate<differentialArgumentSpecifier>(args...);
 
             return m_velocity;
+        }
+
+        template <const size_t differentialArgumentSpecifier = 0>
+        vec3<double> calculateCurrentAcceleration(inputArgumentTypes... args)
+        {
+            m_acceleration = m_nb.evaluateSecondDer<differentialArgumentSpecifier>(args...);
+
+            return m_acceleration;
         }
     };
 
