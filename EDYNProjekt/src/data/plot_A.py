@@ -38,6 +38,7 @@ plt.ion()
 
 def update(frame):
     global quiver
+    
 
     df_A = df_A_r[df_A_r['time'] == t.iloc[frame]]
     traj = traj_r[traj_r['time'] == t.iloc[frame]]

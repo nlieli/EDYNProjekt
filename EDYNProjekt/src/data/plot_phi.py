@@ -76,6 +76,6 @@ def update(frame):
     particle.set_3d_properties(df_traj.z)
 
 ani = animation.FuncAnimation(fig=fig, func=update, frames=len(df_traj_r), interval=1e-4)
-ani.save(filename="phi_example.gif", writer="pillow")
+# ani.save(filename="phi_example.gif", writer="pillow")
 plt.show()
 
